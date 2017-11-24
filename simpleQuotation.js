@@ -1,15 +1,10 @@
-//Data for the whole form
+//Variables for the whole form
 clienteSeleccionado = "";
 productosSeleccionados = [];
 preciosProductosSeleccionados = [];
 cantidadesProductosSeleccionados = [];
 totalesProductosSeleccionados = [];
 grandTotal = 0;
-
-mostrarClientes = false;
-mostrarIdCliente = false;
-clienteIngresadoPorTeclado = true;
-idCliente = "";
 
 clientesFiltrados = [];
 productosFiltrados = [];
