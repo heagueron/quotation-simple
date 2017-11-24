@@ -233,38 +233,21 @@ function actualizarCantidad(cantidad, index){
 }
 
 function updateGrandTotal() {
-    console.log(grandTotal);
-    /*if(totalesProductosSeleccionados.length>0){
-        grandTotal = totalesProductosSeleccionados.reduce((x, y) => x + y);
-    } else */
-
     grandTotal = totalesProductosSeleccionados.length>0 ? totalesProductosSeleccionados.reduce((x, y) => x + y) : 0 
-    
     document.getElementById("grandTotal").innerHTML = grandTotal;
-    console.log(grandTotal);
 }
 
 function removeItem(index) {
 
     var parent = document.getElementById("items");
-
     const targetId = "itemRow"+index; 
     var child = document.getElementById(targetId);  
     parent.removeChild(child);
     
     //Form Arrays:
-    console.log("AL REMOVER:")
-    console.log("productosSeleccionados: "+productosSeleccionados);
     productosSeleccionados.splice(index,1);
-    console.log("productosSeleccionados: "+productosSeleccionados);
-    console.log("cantidadesProductosSeleccionados: "+cantidadesProductosSeleccionados);
     cantidadesProductosSeleccionados.splice(index,1);
-    console.log("cantidadesProductosSeleccionados: "+cantidadesProductosSeleccionados);
-    console.log("preciosProductosSeleccionados: "+preciosProductosSeleccionados);
     preciosProductosSeleccionados.splice(index,1);
-    console.log("preciosProductosSeleccionados: "+preciosProductosSeleccionados);
-    console.log("totalesProductosSeleccionados: "+totalesProductosSeleccionados);
     totalesProductosSeleccionados.splice(index,1);
-    console.log("totalesProductosSeleccionados: "+totalesProductosSeleccionados);
     updateGrandTotal();
 }
