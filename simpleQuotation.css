@@ -1,0 +1,22 @@
+.entry{
+    border: none;
+    border-bottom: 0.2rem solid blue;
+    width: 100%;
+}
+
+.list-visible{
+    display : inline
+}
+
+.list-invisible{
+    display : none
+}
+
+.item-row{
+    padding-bottom: 0.5rem;
+}
+
+.product{   
+    margin-right:  0.5rem;
+}
+

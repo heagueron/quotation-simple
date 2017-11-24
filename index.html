@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Quotation Simple</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="simpleQuotation.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.6/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js"></script>
+
+  <!-- RXJS -->
+  <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/rxjs/4.1.0/rx.all.js"></script>
+  -->
+  <script src="https://unpkg.com/rxjs/bundles/Rx.min.js"></script>
+
+  <!-- App files -->
+  <script src="simpleQuotation.js"></script>
+
+</head>
+
+<body onload="chequearInputCliente()">
+
+<div class="jumbotron " style = "height: 14.0rem">
+  <div class="row">
+    <div class="col-sm-9 text-center">
+      <h1>Quotation Form</h1>
+        <p>Just HTML, Bootstrap, Javascript and a bit of observables</p>
+        <p>Built by: Héctor Agüero - heagueron@gmail.com</p>
+    </div>
+    <div class="col-sm-3">
+      <img src="santa.png"  class = "img-fluid" alt="Merry Christmas!">
+    </div>
+  </div>  
+  
+</div>
+  
+<div class="container">
+  <form>
+    <div class="form-group entry">
+      <label for="cliente"><h5>Client:</h5></label>
+      <input type="text" class="form-control" id="cliente" style = "border: none">      
+    </div>
+    <div id = "listaDeClientes" class = "list-invisible"></div>
+    <div class="row">
+      <div class="col-sm-4"><h5>Product</h5></div>
+      <div class="col-sm-2"><h5>Quantity</h5></div>
+      <div class="col-sm-2"><h5>Price</h5></div>
+      <div class="col-sm-2"><h5>Total</h5></div>
+    </div>
+
+    <!-- The items -->
+    <div id="items">
+    </div>
+
+    <div class="row">
+      <div class="col-sm-8"><h5 class= "text-right">Global =></h5></div>
+      <div class="col-sm-2"><h5 id="grandTotal"></h5></div>
+    </div>
+
+  </form>
+
+  <button type="button" class="btn btn-primary btn-sm" onclick="addItem()">
+  Add item</button>
+
+</div>
+
+</body>
+</html>
