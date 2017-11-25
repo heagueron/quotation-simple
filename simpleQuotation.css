@@ -2,6 +2,7 @@
     border: none;
     border-bottom: 0.2rem solid blue;
     width: 100%;
+    
 }
 
 .list-visible{
@@ -14,9 +15,20 @@
 
 .item-row{
     padding-bottom: 0.5rem;
+    width: 100%;
 }
 
 .product{   
-    margin-right:  0.5rem;
+    margin-right:  0.1rem;
+    padding-right: 1.0rem;
+}
+
+.ri-buttom{
+    padding-left: 7rem;
+}
+
+.price{
+    margin-right: 0rem;
+    padding-right: 0rem;
 }
 

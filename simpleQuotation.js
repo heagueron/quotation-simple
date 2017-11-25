@@ -92,7 +92,8 @@ function addItem() {
 
     //Create the product placeholder
     const product = document.createElement("div");
-    product.className = 'col-sm-4 product';
+    product.className = 'col-sm-5 product';
+    product.id = "product"+index;
     const inputProd = document.createElement("input");
     inputProd.type = "text";
     inputProd.className = "entry";
@@ -109,10 +110,11 @@ function addItem() {
     
     //Create the quantity placeholder
     const quantity = document.createElement("div");
-    quantity.className = 'col-sm-2 product';
+    quantity.className = 'col-sm-1 product';
+    quantity.id = "quantity"+index;
     const inputCant = document.createElement("input");
     inputCant.type = "number";
-    inputCant.className = "entry";
+    inputCant.className = "text-right entry";
     inputCant.id = "inputCant"+index;
     inputCant.value = 0;
     cantidadesProductosSeleccionados.push(0);
@@ -120,31 +122,34 @@ function addItem() {
 
     //Create and initialize the price placeholder
     const price = document.createElement("div");
-    price.className = 'col-sm-2';
+    price.className = 'col-sm-1 text-right price';
     price.id = "prodPrice"+index;
     price.innerHTML = 0;
     preciosProductosSeleccionados.push(0);
   
     //Create and initialize the item total placeholder
     const total = document.createElement("div");
-    total.className = 'col-sm-2';
+    total.className = 'col-sm-1 text-right price';
     total.id = "prodTotal"+index
     total.innerHTML = 0;
     totalesProductosSeleccionados.push(0);
 
     //Create the removeItemButtom placeholder
+    const remItemDiv = document.createElement("div");
+    remItemDiv.className = 'col-sm-3 ri-buttom';
     const removeItemButtom = document.createElement("buttom");
     removeItemButtom.className = 'btn btn-primary btn-sm';  
     removeItemButtom.innerHTML = 'Remove item';
     removeItemButtom.nodeType = 'buttom';
     removeItemButtom.onclick = function() {removeItem(index)};
+    remItemDiv.appendChild(removeItemButtom);
 
     //Assemble the elements
     itemRow.appendChild(product);
     itemRow.appendChild(quantity);
     itemRow.appendChild(price);
     itemRow.appendChild(total);
-    itemRow.appendChild(removeItemButtom);
+    itemRow.appendChild(remItemDiv);
 
     itemsSection.appendChild(itemRow);
 
@@ -181,10 +186,16 @@ function mostrarProductosFiltrados(productosFiltrados, index, entry){
     }
     const list = document.createElement("ul");
     productosFiltrados.forEach((producto) =>{
-        const listItemElem = document.createElement("li");
-        listItemElem.innerHTML = producto.nombre;
-        listItemElem.onclick = function() {seleccionarProducto(producto, index)};
-        list.appendChild(listItemElem);
+        //Check if product already selected:
+        const test = productosSeleccionados.findIndex((item) => {
+            return item == producto.nombre;
+         });
+        if(test == -1){
+            const listItemElem = document.createElement("li");
+            listItemElem.innerHTML = producto.nombre;
+            listItemElem.onclick = function() {seleccionarProducto(producto, index)};
+            list.appendChild(listItemElem);
+        }  
     });
     productosFiltradosSection.appendChild(list);
     productosFiltradosSection.className = "list-visible";
@@ -233,16 +244,39 @@ function updateGrandTotal() {
 }
 
 function removeItem(index) {
-
-    var parent = document.getElementById("items");
-    const targetId = "itemRow"+index; 
-    var child = document.getElementById(targetId);  
-    parent.removeChild(child);
     
-    //Form Arrays:
-    productosSeleccionados.splice(index,1);
-    cantidadesProductosSeleccionados.splice(index,1);
-    preciosProductosSeleccionados.splice(index,1);
-    totalesProductosSeleccionados.splice(index,1);
+    const parentElem = document.getElementById("items");
+    const targetId = "itemRow"+index; 
+    const targetRowElem = document.getElementById(targetId);
+    
+    //Given that some item(s) might be removed previously,
+    //the received index might differ from the target index.
+    //We need to find the target index and we do it before actually
+    //removing the targetRowElem.
+
+    //1.- Find the target index:
+    const itemsChildNodes = parentElem.childNodes;
+    const refId = "itemRow"+index;
+    console.log("refID: "+refId);
+    console.log("itemsChildNodes.length: "+itemsChildNodes.length)
+          
+    var targetIndex;
+    for (var i = 0; i < itemsChildNodes.length; i++) {
+        console.log("i: "+i+", itemsChildNodes[i].id: "+itemsChildNodes[i+1].id);
+        if(itemsChildNodes[i+1].id == refId){
+            targetIndex = i;
+            break;
+        }
+    }
+    console.log("targetIndex: "+targetIndex);
+
+    //Now we can finally remove the HTML element:
+    parentElem.removeChild(targetRowElem);
+
+    //2.-  And update the form arrays and recalculate grandTotal:
+    productosSeleccionados.splice(targetIndex,1);
+    cantidadesProductosSeleccionados.splice(targetIndex,1);
+    preciosProductosSeleccionados.splice(targetIndex,1);
+    totalesProductosSeleccionados.splice(targetIndex,1);
     updateGrandTotal();
 }
