@@ -43,9 +43,11 @@ function chequearInputCliente(){
       .map(i => i.currentTarget.value)
       .debounceTime(750)
       .subscribe(entry => {
-        clienteSeleccionado = "";
-        clientesFiltrados = filtrarClientes(entry);
-        mostrarClientesFiltrados(clientesFiltrados, entry);
+          if(entry!==""){
+            clienteSeleccionado = "";
+            clientesFiltrados = filtrarClientes(entry);
+            mostrarClientesFiltrados(clientesFiltrados, entry);
+          }        
         });
 }
 
@@ -56,10 +58,6 @@ function filtrarClientes(entry) {
 function mostrarClientesFiltrados(clientesFiltrados, entry) {
     const clientesFiltradosSection = document.getElementById("listaDeClientes");
     clientesFiltradosSection.innerHTML = "";
-    if(entry==""){
-        clientesFiltradosSection.className = "list-invisible";
-        return;
-    }
     const list = document.createElement("ul");
     clientesFiltrados.forEach((cliente) =>{
         const listItem = document.createElement("li");
@@ -99,6 +97,7 @@ function addItem() {
     inputProd.className = "entry";
     inputProd.id = "inputProd"+index;
     inputProd.value = "";
+    inputProd.required = true;
 
     productosSeleccionados.push("");
     product.appendChild(inputProd);
@@ -117,6 +116,7 @@ function addItem() {
     inputCant.className = "text-right entry";
     inputCant.id = "inputCant"+index;
     inputCant.value = 0;
+    inputCant.required = true;
     cantidadesProductosSeleccionados.push(0);
     quantity.appendChild(inputCant);
 
@@ -165,9 +165,11 @@ function chequearInputProducto(index){
       .map(i => i.currentTarget.value)
       .debounceTime(750)
       .subscribe(entry => {
-        productosSeleccionados[index] = "";
-        productosFiltrados = filtrarProductos(entry);
-        mostrarProductosFiltrados(productosFiltrados, index, entry);
+        if(entry==""){
+          productosSeleccionados[index] = "";
+          productosFiltrados = filtrarProductos(entry);
+          mostrarProductosFiltrados(productosFiltrados, index, entry);
+        }
         });
 }
 
@@ -179,11 +181,6 @@ function mostrarProductosFiltrados(productosFiltrados, index, entry){
     const targetId = "filteredProducts"+index;
     const productosFiltradosSection = document.getElementById(targetId);
     productosFiltradosSection.innerHTML = "";
-
-    if(entry==""){
-        productosFiltradosSection.className = "list-invisible";
-        return;
-    }
     const list = document.createElement("ul");
     productosFiltrados.forEach((producto) =>{
         //Check if product already selected:
@@ -217,8 +214,14 @@ function seleccionarProducto(selected, index) {
     document.getElementById(targetInputPrice).innerHTML = selected.precio;
     //Form Array:
     preciosProductosSeleccionados[index] = selected.precio;
-
-    //In case quantity entered first:
+    
+    //If no quantity entered yet, set it to 1
+    inputCantId = "inputCant"+index;
+    inputQuantityElem = document.getElementById(inputCantId);
+    if(inputQuantityElem.value==0){
+        inputQuantityElem.value = 1;
+        cantidadesProductosSeleccionados[index] = 1;
+    }
     targetTotalId = "prodTotal"+index;
     productTotalElem = document.getElementById(targetTotalId);
     totalesProductosSeleccionados[index] = cantidadesProductosSeleccionados[index]*preciosProductosSeleccionados[index];
@@ -257,18 +260,14 @@ function removeItem(index) {
     //1.- Find the target index:
     const itemsChildNodes = parentElem.childNodes;
     const refId = "itemRow"+index;
-    console.log("refID: "+refId);
-    console.log("itemsChildNodes.length: "+itemsChildNodes.length)
           
     var targetIndex;
     for (var i = 0; i < itemsChildNodes.length; i++) {
-        console.log("i: "+i+", itemsChildNodes[i].id: "+itemsChildNodes[i+1].id);
         if(itemsChildNodes[i+1].id == refId){
             targetIndex = i;
             break;
         }
     }
-    console.log("targetIndex: "+targetIndex);
 
     //Now we can finally remove the HTML element:
     parentElem.removeChild(targetRowElem);
